@@ -1,0 +1,35 @@
+::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    place-content: center;
+    margin: 10px 0px 10px 0px;
+}
+
+.form-group {
+    display: grid;
+    place-content: center;
+    gap: 5px;
+    margin: 0px 0px 10px 0px;
+}
+
+#addBook { 
+    max-width: 300px;
+    height: auto;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+section {
+    display: grid;
+    place-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 300px));
+    gap: 10px;
+
+}
+

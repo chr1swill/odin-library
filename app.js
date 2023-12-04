@@ -9,6 +9,7 @@ const readInput = document.querySelector("#read");
 const cancelBtn = document.querySelector("#cancel");
 const submitBtn = document.querySelector("#submit");
 const addBookBtn = document.querySelector("#addBook");
+const removeBookBtn = document.querySelectorAll("[data-remove]");
 
 addBookBtn.addEventListener("click", () => {
     dialog.showModal();
@@ -24,6 +25,7 @@ class Book {
         this._author = author;
         this._pages = pages;
         this._read = read;
+        this._index = Book.allInstances.length;
         Book.allInstances.push(this);
     }
 
@@ -76,9 +78,9 @@ class Book {
             throw new TypeError("Must be a boolean");
         }
     }
-
 }
 
+// @type { Book } - book an instance of Book
 const renderBooks = (book) => {
         const bookEl = `
         <style>
@@ -88,14 +90,17 @@ const renderBooks = (book) => {
             padding: 10px;
             margin: 10px;
             background-color: lightgray;
+            display: grid;
+            place-content: center;
         }
         </style>
 
-        <div class="book">
+        <div class="book" data-index="${ book._index }">
             <p class="title">${ book.title }</p>
             <p class="author">By: ${ book.author }</p>
             <p class="pages">${ book.pages } pages</p>
             <p class="read">${ book.read ? "Read" : "Not read" }</p>
+            <button data-remove="${ book._index }">Remove</button>
         </div>
     `
         addBookBtn.insertAdjacentHTML("beforebegin", bookEl);
@@ -108,10 +113,32 @@ form.addEventListener("submit", (event) => {
     const pages = pagesInput.value;
     const read = readInput.checked;
     const newBook = new Book(title, author, pages, read);
-    console.log()
 
     renderBooks(newBook);
     form.reset();
     dialog.close();
+});
+
+
+
+document.addEventListener('click', function(event) {
+    if(event.target && event.target.getAttribute('data-remove') !== null) {
+        // Get the index from the data-remove attribute
+        const index = event.target.getAttribute('data-remove');
+
+        // Remove the book from the Book.allInstances array
+        Book.allInstances.splice(index, 1);
+
+        // Update the indices of the remaining books
+        Book.allInstances.forEach((book, index) => {
+            book._index = index;
+        });
+
+        // Clear the current books from the DOM
+        document.querySelectorAll('.book').forEach(book => book.remove());
+
+        // Re-render the books
+        Book.allInstances.forEach(book => renderBooks(book));
+    }
 });
 

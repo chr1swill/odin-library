@@ -83,7 +83,7 @@ class Book {
 // @type { Book } - book an instance of Book
 const renderBooks = (book) => {
         const bookEl = `
-        <div class="book" data-index="${ book._index }">
+        <div class="book">
             <p class="title">${ book.title }</p>
             <p class="author">By: ${ book.author }</p>
             <p class="pages">${ book.pages } pages</p>
